@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Closures</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    
+    /*
+        // Lexical Scope Example
+        const myGlobal = 0;
+        function func() 
+        {
+          const myVar = 1;
+          console.log(myGlobal); // logs "0"
+          
+          function innerOfFunc() 
+          {
+            const myInnerVar = 2;
+            console.log(myVar, myGlobal); // logs "1 0"
+            
+            function innerOfInnerOfFunc() 
+            {
+              console.log(myInnerVar, myVar, myGlobal); // logs "2 1 0"
+            }
+
+            innerOfInnerOfFunc();
+          }
+
+          innerOfFunc();
+        };
+
+        // Call the function
+        func(); 
+
+        // Closure Explained
+        // Example with Lexical Scoping only
+        function outerFunc() 
+        {
+          let outerVar = 'I am outside!';
+          function innerFunc() 
+          {
+            console.log(outerVar); // => logs "I am outside!"
+          }
+          innerFunc();
+        }
+        outerFunc();
+
+
+        // Example with Lexical Scoping and Closure
+        function outerFunc2() 
+        {
+          let outerVar = 'I am outside!';
+          function innerFunc2() 
+          {
+            console.log(outerVar); // => logs "I am outside!"
+          }
+          return innerFunc2;
+        }
+
+        function exec() 
+        {
+          // Creating Scope for outerFun2
+          const myInnerFunc = outerFunc2();          
+          // Creating scope for innterFunc2, but Closure preserves context
+          myInnerFunc();
+        }        
+        exec();
+
+
+        // Closure Examples - Event Handler
+        let countClicked = 0;
+        var myButton = document. createElement("button")
+        myButton.addEventListener('click', function handleClick() {
+          countClicked++;
+          myText.innerText = `You clicked ${countClicked} times`;
+        });
+        
+        // Closure Examples - Callbacks
+        const message = 'Hello, World!';
+        setTimeout(function callback() 
+        {
+          console.log(message); // logs "Hello, World!"
+        }, 100);
+
+
+        // Closure Example - Nested Functions
+        function multiply(a) 
+        {
+          return function executeMultiply(b) {
+            return a * b;
+          }
+        }
+        const double = multiply(2);
+        double(3); // => 6
+        double(5); // => 10
+        const triple = multiply(3);
+        triple(4); // => 12
+        */
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Imperative - Functional: XMLHttpRequest vs fetch-API</title>
+</head>
+<body>
+
+<button name="data-trigger" id="data-trigger">Get Data</button>
+<div class="data-display" id="data-display"></div>
+
+<script type="text/javascript">
+
+    // Excercise - Web Requests XMLHttpRequest vs Fetch API
+
+    // Use Wikipedia API: https://en.wikipedia.org/w/api.ph
+    // API-Description:   https://www.mediawiki.org/w/api.php?action=help&modules=opensearch
+    // Example Query 1: https://en.wikipedia.org/w/api.php?action=opensearch&search=Functional%20Programming&limit=200&origin=*
+    // Example Query 2: https://en.wikipedia.org/w/api.php?action=query&list=recentchanges&rcprop=title|ids|sizes|flags|user&format=json&origin=*
+
+    // "Traditional" Way
+    let button = document.getElementById("data-trigger");
+    let datadisplay = document.getElementById("data-display");
+
+    button.addEventListener("click", (e) =>
+    {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // In case there is Form-Data
+        // let params = new FormData();
+        const request = new XMLHttpRequest();
+
+        let queryString = "https://en.wikipedia.org/w/api.php?action=opensearch&search=Functional%20Programming&limit=200&origin=*";
+        request.open("GET", queryString, true);
+        //request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        //request.setRequestHeader('Accept', 'application/x-www-form-urlencoded');
+
+        request.onreadystatechange = function()
+        {
+            if (request.readyState === 4)
+            {
+                //let response = JSON.parse(request.responseText);
+                if (request.status === 200)
+                {
+                    datadisplay.innerHTML = request.responseText;
+                    console.log('success', request.response);
+                }
+                else
+                {
+                    datadisplay.innerHTML = request.responseText;
+                    console.log('failed', request.response);
+                }
+            }
+        }
+
+        // Or via separate Events:
+        // Not callbacks need to be defined (see below)!
+
+        //request.addEventListener("progress", updateProgress);
+        //request.addEventListener("load", transferComplete);
+        //request.addEventListener("error", transferFailed);
+        //request.addEventListener("abort", transferCanceled);
+
+        request.send();
+        // Send Form-Data
+        //request.send(new URLSearchParams(params).toString());
+    });
+
+    /*  function updateProgress(){}
+        function transferComplete(){}
+        function transferFailed(){}
+        function transferCanceled(){}
+     */
+
+
+
+    // Todo: Using the fetch-api ("new, functional way, using promises and async ;-)")
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+
+
+    /*
+    * Solution
+    *
+    let button = document.getElementById("data-trigger");
+    let datadisplay = document.getElementById("data-display");
+
+    button.addEventListener("click", (e) =>
+    {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let queryString = "https://en.wikipedia.org/w/api.php?action=opensearch&search=Functional%20Programming&limit=200&origin=*";
+
+        fetch(queryString)
+            .then((result) => { console.log(result); return result.json() })
+            .then((data) => { datadisplay.innerHTML = data; console.log(data) })
+            .catch((error) => console.log("Fetch-Error", error));
+    });*/
+
+</script>
+</body>
+</html>

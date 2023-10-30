@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lambda-JS</title>
+  </head>
+  <body>
+	<script type="text/javascript">
+
+      // λ-terms (inductive definition): expression = variable || abstraction || application
+      // 1) variable = expression
+      // 2) function definition (abstraction) = λ(variable).(expression)
+      // 3) (function) application = (expression:function)(expression:input)
+      
+      // #1 Variables
+      let x = 5; // Variable
+      let x_2 = 7;
+      let y = "Hello World"; // Variable
+      let z = function(){}; // Expression
+      let z2 = () => {}; // Expression using Arrow (Lambda) Operator
+
+      // #2 Abstractions (Function Definitions)
+      // λ(x).(x)
+      const FIdentity = x => x;
+      // λ(x).(0)
+      const FZero = x => 0;
+      // λ(x).(x*x)
+      const FSquare = x => x*x;
+      // λ(x).(x+x)
+      const FAddSelf = x => x+x;
+
+      // #3 Application
+      // EA => E(A) => E = FSquare, A = x
+      console.log(FSquare(x));
+      // EA => E(A) => E = FAddSelf, A = x
+      console.log(FAddSelf(x));
+      // EFA => EF(A) => E(F(A)) => E(F(x)) => E(FAddSelf(x)) => FSquare(FAddSelf(x))
+      console.log(FSquare(FAddSelf(x)));
+      // etc.
+
+      // Functions with multi-arguments: Return a function "per parameter"      
+      // Caution: this is not lambda-calculus conform:
+      const FAdd = (x,y) => x + y;
+      console.log(FAdd(x,x_2))
+
+      // But this is: λx(λy.x + y) => 
+      const FAddLambda = x => (y => (x + y))
+      console.log(FAddLambda(x)(x_2))
+      console.log(FAddLambda(FSquare(x))(x_2))
+      // etc.
+
+      // Logical Operators
+      // Idea: Both functions have two parameters and return one; the difference is that True choose the first to return and False choose the second.
+      const True = x => y => x
+      const False = x => y => y
+      // TODO: Not, AND, OR
+      console.log(True(FAddSelf(x))(FSquare(x)))
+      console.log(False(FAddSelf(x))(FSquare(x)))
+      
+      // Switch Operators If / Else
+      // if = λp.λa.λb.pab
+      const If = Condition => Then => Else => Condition(Then)(Else)
+      // Conditions: 
+      const isTrue = () => "it's true!" 
+      const isFalse = () => "it's false!"
+      const First = If(True)(isTrue)(isFalse);
+      const Second = If(False)(isTrue)(isFalse) 
+      console.log(First()) // "it's true!"
+      console.log(Second()) // "it's false!"
+
+      // Loops
+      // TODO
+      // Recursion
+      // TODO
+
+	</script>
+  </body>
+</html>

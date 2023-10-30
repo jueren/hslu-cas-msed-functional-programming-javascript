@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Declaration Types</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+            // 1 Standard-Way:
+            function myFirstFunction() 
+            {       
+                console.log("Hello World, My First Function")
+            }
+            myFirstFunction();
+
+            
+            // 2 a) Function expression with anonymous function
+            let mySecondFunctionVar = function()
+            {
+                console.log("Hello World, my Second Function")
+            }
+            mySecondFunctionVar();
+
+            
+             // 2 b) Function expression with immediately invoked
+             // Info: IIFE can be created with unary operators.
+            let mySecondFunctionVarIIFE = (function()
+            {
+                console.log("Hello World, my Second Function IIFE")
+            })(); // The trailing parentheses ( ) are used to invoke the function
+            
+
+            // 3 a) Constructor Functions
+            let add = new Function('a', 'b', 'return a + b');
+            console.log(add(2, 6));
+        
+            
+
+            // 3 b) Constructor Functions
+            function Person() 
+            {
+                this.name = "Anita", // this referring to function-scope
+                this.age = 21
+            }
+            let person = new Person();
+            console.log(person.name); // getters
+
+            
+             // 3 c) Constructor Functions
+            var Person = function (name, age) 
+            {
+                this.name = name; // this referring to function-scope, setter
+                this.age = age;
+            };
+            let person1 = new Person("Anna", "19"); // constructor initialization
+            let person2 = new Person("Hans", "21");
+
+            console.log(person1.name, person1.age);
+            console.log(person2.name, person2.age);
+
+
+
+            // 4 Hoisting
+            // It is possible to call functions before actually writing the code for the function statement
+            printHelloWorld();
+            function printHelloWorld()
+            {
+                console.log("Hello World, hoisted!");
+            }
+
+            
+            // 5) Arrow Function (ES6-Syntactic Sugar)
+            let sum = (x, y) => { return x + y }
+            console.log(sum(2, 3));
+            
+            
+            // Beneficial for Promises and Callbacks
+            /*asyncFunction()
+                .then(sum(x, ))
+                .then(() => asyncFunction2())
+                .then(() => finish)*/
+
+
+            // 6) Nested Functions
+            // - Declare a function inside another function (f2 inside f1)
+            // - Call: 
+            //       - Make a call to the inner function in the return statement of the outer function. OR
+            //       - Call f1()() -> Calls f2
+            
+            // Call inner function from outer-function-context
+            function outerFunc() 
+            {
+                // the outer scope
+                let outerVar = 'I am outside!';
+                function innerFunc() 
+                {
+                    // the inner scope
+                    console.log(outerVar); // => logs "I am outside!"
+                }
+                innerFunc();
+            }          
+            // call outer - func only  
+            outerFunc()
+
+            // Call inner function explicitely
+            function outerFunc2() 
+            {
+                // the outer scope
+                let outerVar = 'I am outside F2!';
+                function innerFunc2() 
+                {
+                    // the inner scope
+                    console.log(outerVar); // => logs "I am outside!"
+                }
+
+                return innerFunc2; // return instead of call directly
+            }          
+            
+            const outerFuncVar = outerFunc2()
+            outerFuncVar() // call inner func immediately
+            // alternative
+            // outerFunc2()() -> Currying!
+            
+    </script>
+  </body>
+</html>

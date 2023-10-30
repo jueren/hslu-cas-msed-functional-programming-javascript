@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Imperative - Functional: map() and filter()</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    // Excercise 1 - Transform these imperatively written programs into functional form
+    // Each number to the power of 2, but select only odd numbers finally
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const results = []
+
+    for (let i = 0; i < numbers.length; i++) {
+        const secondPower = Math.pow(numbers[i], 2)
+        if (secondPower & 1) { // or % 2 but operations on bits are faster
+            results.push(secondPower);
+        }
+    }
+    console.log(results) // [1, 9, 25, 49, 81]
+    // Todo: Using map & filter (& higher order function)
+    // Hint: Define a Function "Square", and put it into map()
+    /* Solution: Easy
+
+        const risesToSecondPower = (num) => Math.pow(num, 2)
+        const isOdd = (num) => num & 1;
+
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        const results = numbers
+            .map(risesToSecondPower)
+            .filter(isOdd);
+
+        console.log(results) // [1, 9, 25, 49, 81]
+    */
+
+    // Excercise 2 - Map & Filter
+    // Given user-data
+    const users = [
+        {
+            name: "Bob Ross",
+            age: 42,
+            email: "bob@gmail.com",
+            salary: 100000
+        },
+        {
+            name: "Julia Ross",
+            age: 42,
+            email: "julia@gmail.com",
+            salary: 100500
+        },
+        {
+            name: "Rob Boss",
+            age: 24,
+            email: "",
+            salary: 120000
+        },
+        {
+            name: "Ruth Boss",
+            age: 24,
+            email: "",
+            salary: 112000
+        },
+        {
+            name: "Bor Sob",
+            age: 17,
+            email: "bor@gmail.com",
+            salary: 115000
+        },
+        {
+            name: "Sor Bob",
+            age: 82,
+            email: "sor@gmail.com",
+            salary: 85000
+        },
+    ];
+
+    // Get all Emails
+    let emails = [];
+    for (let i = 0; i < users.length; i++)
+    {
+        let currentUser = users[i];
+        emails.push(currentUser.email);
+    }
+    console.log(emails);
+    // Todo: Get all Emails with map & filter
+
+    // Todo: What is the maximum, minimum and average age?
+    let minage = 100, maxage = 0, avgage = 0;
+    let userCount = users.length;
+    for (let i = 0; i < userCount; i++)
+    {
+        let currentUser = users[i];
+        avgage += currentUser.age / userCount;
+
+        if(minage > currentUser.age)
+        {
+            minage = currentUser.age;
+        }
+        if(maxage < currentUser.age)
+        {
+            maxage = currentUser.age
+        }
+    }
+    console.log(avgage, minage, maxage);
+
+    // Todo: What is the maximum, minimum and average age using map & filter
+
+</script>
+</body>
+</html>
