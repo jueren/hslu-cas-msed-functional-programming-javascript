@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>Webcomponent Example MSED</title>
+  </head>
+  <body>
+
+    <hello-world name="Welcome to"></hello-world>
+    <hello-world name="MSED course"></hello-world>
+
+    <script type="module">
+        class HelloWorld extends HTMLElement
+        {
+            static observedAttributes = ["name"];
+
+            constructor()
+            {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+            connectedCallback()
+            {
+                this.shadowRoot.innerHTML = this.name
+            }
+            attributeChangedCallback(property, oldValue, newValue)
+            {
+                this[ property ] = newValue;
+            }
+        }
+
+        customElements.define('hello-world', HelloWorld);
+
+    </script>
+  </body>
+</html>
