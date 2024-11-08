@@ -15,7 +15,7 @@
     {
         constructor()
         {
-            if (!localStorage)
+            if (!window.localStorage)
             {
                 alert("Local Storage API not supported by this browser");
                 return;
@@ -24,14 +24,14 @@
 
         flushStorage()
         {
-            localStorage.clear();
+            window.localStorage.clear();
         }
 
         insert(key, value)
         {
-            if(!localStorage.getItem(key))
+            if(!window.localStorage.getItem(key))
             {
-                localStorage.setItem(key, value);
+                window.localStorage.setItem(key, value);
                 console.log("Insert: True ", key, value);
                 return true;
             }
@@ -44,9 +44,9 @@
 
         update(key, value)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                localStorage.setItem(key, value);
+                window.localStorage.setItem(key, value);
                 console.log("Update: True", key, value);
                 return true;
             }
@@ -57,11 +57,11 @@
             }
         }
 
-        delete ()
+        delete (key)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                localStorage.removeItem(key);
+                window.localStorage.removeItem(key);
                 console.log("Delete: True", key);
                 return true;
             }
@@ -74,9 +74,9 @@
 
         select(key)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                let value =  localStorage.getItem(key);
+                let value = window.localStorage.getItem(key);
                 console.log("Select: True", key, value);
                 return value;
             }
@@ -139,8 +139,11 @@
         console.log("Error Inserting")
     }
 
-    // Todo: Modern Way
+    console.log(" .... ")
+    
+    // Todo: Modern Way (preventing callback-hell)
     // Hint: Final code should look like this below
+    // Each Classmethod will be returning a promise ;-)
 
     /*fetchLocalStorage.flushStorage();
 
@@ -150,30 +153,39 @@
         .then((updateResult) => updateResult.select("first-key"))
         .then((selectResult2) => selectResult2.delete("first-key"))
         .then((deleteResult) => deleteResult.select("first-key"))
-        .catch((error) => console.log("Catch-Error:", error));*/
+        .catch((error) => console.log("Catch-Error:", error));
+    */
 
     /*
-
-    Solution
-
-    const fetchLocalStorage =
+    Solution As Class
+    
+    class FetchLocalStoragePromise
     {
-        flushStorage: () =>
+        constructor()
         {
-            localStorage.clear();
-        },
+            if (!window.localStorage)
+            {
+                alert("Local Storage API not supported by this browser");
+                return;
+            }
+        }
 
-        insert: (key, value) =>
+        flushStorage ()
+        {
+            window.localStorage.clear();
+        }
+
+        insert (key, value)
         {
             try {
 
-                if(!localStorage.getItem(key))
+                if(!window.localStorage.getItem(key))
                 {
-                    localStorage.setItem(key, value);
+                    window.localStorage.setItem(key, value);
                     return new Promise((resolve, reject) =>
                     {
                         console.log("Insert: Resolve ", key, value);
-                        resolve(fetchLocalStorage);
+                        resolve(this);
                     })
                 }
                 else
@@ -193,17 +205,17 @@
                     reject(error);
                 })
             }
-        },
+        }
 
-        select: (key)  =>
+        select (key)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                let value =  localStorage.getItem(key);
+                let value = window.localStorage.getItem(key);
                 return new Promise((resolve, reject) =>
                 {
                     console.log("Select: Resolve", key, value);
-                    resolve(fetchLocalStorage, value);
+                    resolve(this, value);
                 })
             }
             else
@@ -214,17 +226,17 @@
                     reject("Key not Found");
                 })
             }
-        },
+        }
 
-        update: (key, value) =>
+        update (key, value)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                localStorage.setItem(key, value);
+                window.localStorage.setItem(key, value);
                 return new Promise((resolve, reject) =>
                 {
                     console.log("Update: Resolve", key, value);
-                    resolve(fetchLocalStorage, value);
+                    resolve(this, value);
                 })
             }
             else
@@ -235,17 +247,17 @@
                     reject("Key not Found");
                 })
             }
-        },
+        }
 
-        delete: (key) =>
+        delete (key)
         {
-            if(localStorage.getItem(key))
+            if(window.localStorage.getItem(key))
             {
-                localStorage.removeItem(key);
+                window.localStorage.removeItem(key);
                 return new Promise((resolve, reject) =>
                 {
                     console.log("Delete: Resolve", key);
-                    resolve(fetchLocalStorage);
+                    resolve(this);
                 })
             }
             else
@@ -259,16 +271,17 @@
         }
     }
 
-    fetchLocalStorage.flushStorage();
+    fetchLocalStoragePromises = new FetchLocalStoragePromise()
+    fetchLocalStoragePromises.flushStorage();
 
-    fetchLocalStorage.insert("first-key", "Hello World")
+    fetchLocalStoragePromises.insert("first-key", "Hello World")
         .then((insertResult) => insertResult.select("first-key"))
         .then((selectResult) => selectResult.update("first-key", "Hello MSED"))
         .then((updateResult) => updateResult.select("first-key"))
         .then((selectResult2) => selectResult2.delete("first-key"))
         .then((deleteResult) => deleteResult.select("first-key"))
         .catch((error) => console.log("Catch-Error:", error));
-     */
+    */
 
 </script>
 </body>

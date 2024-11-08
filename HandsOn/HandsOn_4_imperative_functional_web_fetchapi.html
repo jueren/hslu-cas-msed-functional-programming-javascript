@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
 
-    // Excercise - Web Requests XMLHttpRequest vs Fetch API
+    // Excercise Callbacks - Web Requests XMLHttpRequest vs Fetch API
 
     // Use Wikipedia API: https://en.wikipedia.org/w/api.ph
     // API-Description:   https://www.mediawiki.org/w/api.php?action=help&modules=opensearch
@@ -85,22 +85,45 @@
 
     /*
     * Solution
-    *
-    let button = document.getElementById("data-trigger");
-    let datadisplay = document.getElementById("data-display");
+    
+    let button_solution = document.getElementById("data-trigger");
+    let datadisplay_solution = document.getElementById("data-display");
 
-    button.addEventListener("click", (e) =>
+    button_solution.addEventListener("click", async (e) =>
     {
         e.preventDefault();
         e.stopPropagation();
 
         let queryString = "https://en.wikipedia.org/w/api.php?action=opensearch&search=Functional%20Programming&limit=200&origin=*";
 
-        fetch(queryString)
+        await fetch(queryString)
             .then((result) => { console.log(result); return result.json() })
-            .then((data) => { datadisplay.innerHTML = data; console.log(data) })
+            .then((data) => { datadisplay_solution.innerHTML = data; console.log(data) })
             .catch((error) => console.log("Fetch-Error", error));
     });*/
+
+    
+    /*
+    Solution Variant
+
+    let button_solution = document.getElementById("data-trigger");
+    let datadisplay_solution = document.getElementById("data-display");
+
+    async function handleButtonClick(e)
+    { 
+        e.preventDefault();
+        e.stopPropagation();
+
+        let queryString = "https://en.wikipedia.org/w/api.php?action=opensearch&search=Functional%20Programming&limit=200&origin=*";
+
+        await fetch(queryString)
+            .then((result) => { console.log(result); return result.json() })
+            .then((data) => { datadisplay_solution.innerHTML = data; console.log(data) })
+            .catch((error) => console.log("Fetch-Error", error));
+    }
+
+    button_solution.addEventListener("click", async (e) => await handleButtonClick(e));
+    */
 
 </script>
 </body>

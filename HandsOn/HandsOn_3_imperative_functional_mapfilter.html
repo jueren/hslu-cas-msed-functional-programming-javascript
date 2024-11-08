@@ -55,13 +55,13 @@
         {
             name: "Rob Boss",
             age: 24,
-            email: "",
+            email: "-",
             salary: 120000
         },
         {
             name: "Ruth Boss",
             age: 24,
-            email: "",
+            email: "-",
             salary: 112000
         },
         {
@@ -83,10 +83,11 @@
     for (let i = 0; i < users.length; i++)
     {
         let currentUser = users[i];
-        emails.push(currentUser.email);
+        let userEmail = currentUser.email;
+        if(userEmail !== "-") emails.push();
     }
     console.log(emails);
-    // Todo: Get all Emails with map & filter
+    // Todo: Get all Emails as a String with map, filter & reduce (no empty Email-Adresses)
 
     // Todo: What is the maximum, minimum and average age?
     let minage = 100, maxage = 0, avgage = 0;
@@ -107,7 +108,14 @@
     }
     console.log(avgage, minage, maxage);
 
-    // Todo: What is the maximum, minimum and average age using map & filter
+    // Todo: What is the maximum, minimum and average age using map, filter & reduce (where applicable)
+
+    /*
+        Solution:
+        let maximum = users.map((user) => { return user.salary}).reduce((previousReturn, currentElement) => { return (currentElement > previousReturn) ? currentElement : previousReturn });
+        let minimum = users.map((user) => { return user.salary}).reduce((previousReturn, currentElement) => { return (currentElement < previousReturn) ? currentElement : previousReturn });
+        let avg = users.map((user) => { return user.salary}).reduce((previousReturn, currentElement) => { return currentElement + previousReturn }) / users.length;
+    */
 
 </script>
 </body>

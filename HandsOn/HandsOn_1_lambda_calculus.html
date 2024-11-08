@@ -56,6 +56,12 @@
       const True = x => y => x
       const False = x => y => y
       // TODO: Not, AND, OR
+      const FNot = x => False(x)(True(x))
+      
+      /*const Or = Exp1 => Exp2 => Exp1(Exp1)(Exp2)
+      const FNot = Or(False)(False)
+      console.log(FNot(True(True)));*/
+
       console.log(True(FAddSelf(x))(FSquare(x)))
       console.log(False(FAddSelf(x))(FSquare(x)))
       

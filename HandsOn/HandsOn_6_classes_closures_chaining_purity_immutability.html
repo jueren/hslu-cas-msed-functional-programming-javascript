@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lambda-JS</title>
+  </head>
+  <body>
+	<script type="text/javascript">
+
+      // Problem to explore: Class-Vars are exposed publicly
+      class Human 
+      {
+          constructor(name, age)
+          {
+            this.name = name;
+            this.age = age;
+          }
+
+          getAge() 
+          {
+            return this.age;
+          }
+
+          getName()
+          {
+            return this.name
+          }
+
+          ages(years)
+          {
+            this.age += years
+          }
+      }
+
+      let hum1 = new Human("Sandy", 30)
+      let hum2 = new Human("Daniel", 30)
+
+      // Proper Method access
+      console.log(hum1.getName(), hum1.getAge())
+
+      // Prolem 1: Direct read & writeaccess posible also (there is no private keyword)
+      console.log(hum1.name, hum1.age)
+
+      // Problem 2: Side Effect
+      hum1.age += 1; // hum1.ages(1);
+      console.log(hum1.name, hum1.age)
+
+      // Approach
+      class Human2
+      {
+          constructor(name, age)
+          {
+            this.name = name;
+            this.age = age;
+          }
+
+          getAge() 
+          {
+            return this.age;
+          }
+
+          getName()
+          {
+            return this.name
+          }
+
+          ages(years)
+          {
+            // Clone Data of the Class (not the Class-Instance itself)
+            var currentInstance = Object.assign({}, this) // or use expand {...this}
+            currentInstance.age += years
+            return currentInstance
+          }
+      }
+
+      hum3 = new Human2("Betty", 25);
+      console.log(hum3.getName(), hum3.getAge())
+      hum3.ages(3)
+      console.log(hum3.getAge())
+      //console.log(hum4.age)
+      
+      // But .age, .name still publicly visible & modifiable (no private class properties in js yet)
+      // Closures!
+      function Human3(init_name, init_age)
+      {
+          let name=init_name, age=init_age;
+
+          return {
+            getAge: function(){return age;},
+            setAge: function(new_age) { age = new_age;},
+            getName: function(){return name;},
+            setName: function(new_name) { name = new_name;},
+            ages: function(years) { age += years }
+          }
+      }
+            
+
+      // Another benefit: no new keyword. no use of this needed ;-)
+      let hum5 = Human3("Betty", 25);
+      // hum5.name -> not accessible -> good.
+      console.log(hum5.name, hum5.age, hum5.getName(), hum5.getAge());
+      // Side-Effects?
+      hum5.ages(3)
+      console.log(hum5.name, hum5.age, hum5.getName(), hum5.getAge());
+
+
+      function Human4(init_name, init_age)
+      {
+        let name=init_name, age=init_age;
+
+        return {
+          getAge: function(){return age;},
+          setAge: function(new_age) 
+          {
+            let newObject = Object.assign({}, this)
+            newObject.age = new_age; 
+            return newObject;
+          },
+          getName: function(){return name;},
+          setName: function(new_name) 
+          {
+            let newObject = Object.assign({}, this)
+            newObject.name = new_name; 
+            return newObject;
+          },
+          ages: function(years) 
+          { 
+            let newObject = Object.assign({}, this)
+            newObject.age += years; 
+            return newObject;
+          }
+        }
+      }
+
+      let hum6 = Human4("Johnny", 45);
+      // hum5.name -> not accessible -> good.
+      console.log(hum6.name, hum6.age, hum6.getName(), hum6.getAge());
+      // Side-Effects?
+      hum6.ages(4)
+      console.log(hum6.getAge());
+      // ;-)
+      
+      // Chaining / Builder-Patterns
+      function Human5(init_name, init_age)
+      {
+          let name=init_name, age=init_age;
+
+          return {
+            getAge: function(){return age;},
+            setAge: function(new_age) { age = new_age; return this;}, // returning this, allows method-chaining
+            getName: function(){return name;},
+            setName: function(new_name) { name = new_name; return this; }, // returning this, allows method-chaining
+            ages: function(years) { age += years; return this; }
+          }
+      }
+
+      console.log(Human5("Myriel", 65).ages(1).getAge());
+
+      // Has returning THIS side-effects?
+
+
+	</script>
+  </body>
+</html>
